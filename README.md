@@ -8,7 +8,7 @@ It can refresh... Data can came server or local system, or what you want...
 
 ![](http://themt.co/files/flutter-refazynist/refazynist-refreshable.gif)
 
-### Cachable
+### Cacheable
 
 It can cache... Live status is saving to local system with Shared Preferences and continue from last point.
 
@@ -18,7 +18,7 @@ It can cache... Live status is saving to local system with Shared Preferences an
 
 It can loading lazy... If you want lazy loading, you can server data or whatever
 
-| ![](http://themt.co/files/flutter-refazynist/refazynist-refreshable.gif) | ![](http://themt.co/files/flutter-refazynist/refazynist-lazy-2.gif) |
+| ![](http://themt.co/files/flutter-refazynist/refazynist-lazy.gif) | ![](http://themt.co/files/flutter-refazynist/refazynist-lazy-2.gif) |
 | :----------------------------------------------------------: | :----------------------------------------------------------: |
 
 
