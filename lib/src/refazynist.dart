@@ -11,7 +11,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-typedef RefazynistErrorBuilder = Widget Function (BuildContext bContext, AsyncSnapshot bSnapshot);;
+typedef RefazynistErrorBuilder = Widget Function (BuildContext bContext, AsyncSnapshot bSnapshot);
 typedef RefazynistEmptyBuilder = Widget Function (BuildContext bContext);
 typedef RefazynistLoaderBuilder = Widget Function (BuildContext bContext, Animation<double> bAnimation);
 typedef RefazynistOnLazy = Future<List<dynamic>> Function ();
