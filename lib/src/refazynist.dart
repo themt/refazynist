@@ -11,12 +11,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-typedef RefazynistErrorWidget = Widget Function (BuildContext ibContext, AsyncSnapshot snapshot);
-typedef RefazynistEmptyBuilder = Widget Function (BuildContext ibContext);
-typedef RefazynistLoaderBuilder = Widget Function (BuildContext ibContext, Animation<double> ibAnimation);
+typedef RefazynistErrorBuilder = Widget Function (BuildContext bContext, AsyncSnapshot bSnapshot);
+typedef RefazynistEmptyBuilder = Widget Function (BuildContext bContext);
+typedef RefazynistLoaderBuilder = Widget Function (BuildContext bContext, Animation<double> bAnimation);
 typedef RefazynistOnLazy = Future<List<dynamic>> Function ();
-typedef RefazynistItemBuilder = Widget Function (dynamic item, BuildContext ibContext, int ibIndex, Animation<double> ibAnimation, RefazynistCallType type);
-typedef RefazynistRemovedItemBuilder = Widget Function (dynamic item, BuildContext ibContext, int ibIndex, Animation<double> ibAnimation, RefazynistCallType type);
+typedef RefazynistItemBuilder = Widget Function (dynamic item, BuildContext bContext, int index, Animation<double> bAnimation, RefazynistCallType type);
+typedef RefazynistRemovedItemBuilder = Widget Function (dynamic item, BuildContext bContext, int index, Animation<double> bAnimation, RefazynistCallType type);
 
 /// Used for configure how [itemBuilder] or [removeItemBuilder] can be triggered
 enum RefazynistCallType {
@@ -36,47 +36,57 @@ class Refazynist extends StatefulWidget {
   /// The [onInit], [itemBuilder], [removedItemBuilder],
   /// [onLazy], [onRefresh], [sharedPreferencesName] arguments must be
   /// non-null.
-  Refazynist({required this.onInit, required this.itemBuilder, required this.removedItemBuilder, required this.onLazy, required this.onRefresh, required this.sharedPreferencesName, this.emptyBuilder, this.loaderBuilder, this.insertDuration = const Duration(milliseconds: 500), this.removeDuration = const Duration(milliseconds: 500), this.sequentialInsert = false, this.sequentialRemove = false, Key? key}) : super(key: key);
+  const Refazynist({
+    required this.onInit,
+    required this.itemBuilder,
+    required this.removedItemBuilder,
+    required this.onLazy,
+    required this.onRefresh,
+    required this.sharedPreferencesName,
+    this.emptyBuilder = refazynistDefaultErrorBuilder,
+    this.loaderBuilder = refazynistDefaultLoaderBuilder,
+    this.insertDuration = const Duration(milliseconds: 250),
+    this.removeDuration = const Duration(milliseconds: 250),
+    this.sequentialInsert = false,
+    this.sequentialRemove = false,
+    Key? key
+  }) : super(key: key);
 
   /// A name that's name for cache. Used for [SharedPreferences]
-  String sharedPreferencesName = 'manage';
+  final String sharedPreferencesName;
 
   /// A function that's called builder when list is empty
-  RefazynistEmptyBuilder? emptyBuilder = (c) {
-    return Center (
-      child: Text ('Empty'),
-    );
-  };
+  final RefazynistEmptyBuilder emptyBuilder;
 
   /// itemBuilder for rendering on Animated List
-  RefazynistItemBuilder itemBuilder;
+  final RefazynistItemBuilder itemBuilder;
 
   /// itemBuilder for rendering on Animated List when item removed
-  RefazynistRemovedItemBuilder removedItemBuilder;
+  final RefazynistRemovedItemBuilder removedItemBuilder;
 
   /// A function that's called when lazy load is required
-  RefazynistOnLazy onLazy;
+  final RefazynistOnLazy onLazy;
 
   /// A function that's called when swap to refresh
-  RefazynistOnLazy onRefresh;
+  final RefazynistOnLazy onRefresh;
 
   /// A function that's called when first run
-  RefazynistOnLazy onInit;
+  final RefazynistOnLazy onInit;
 
   /// A function that's called when loader rendering when lazy load required
-  RefazynistLoaderBuilder? loaderBuilder;
+  final RefazynistLoaderBuilder loaderBuilder;
 
   /// Used for how to be item inserting, sequential or same-time
-  bool sequentialInsert = false;
+  final bool sequentialInsert;
 
   /// Used for how to be item removing, sequential or same-time
-  bool sequentialRemove = false;
+  final bool sequentialRemove;
 
   /// Duration for animation when item inserted to list
-  Duration insertDuration;
+  final Duration insertDuration;
 
   /// Duration for animation when item removed from list
-  Duration removeDuration;
+  final Duration removeDuration;
 
   @override
   RefazynistState createState() => RefazynistState();
@@ -122,7 +132,7 @@ class RefazynistState extends State<Refazynist> {
       await _removeItem(index, RefazynistCallType.item, duration: duration, disappear: disappear);
       oldLen--;
       if (_frontWidget == null && oldLen == 0) {
-        _frontWidget = widget.emptyBuilder!(context);
+        _frontWidget = widget.emptyBuilder(context);
         setState(() {
 
         });
@@ -215,7 +225,7 @@ class RefazynistState extends State<Refazynist> {
     if (_items.length > 0) {
       _frontWidget = null;
     } else {
-      _frontWidget = widget.emptyBuilder!(context);
+      _frontWidget = widget.emptyBuilder(context);
     }
 
     setState(() {
@@ -273,7 +283,7 @@ class RefazynistState extends State<Refazynist> {
     if (_items.length > 0) {
       _frontWidget = null;
     } else {
-      _frontWidget = widget.emptyBuilder!(context);
+      _frontWidget = widget.emptyBuilder(context);
     }
 
     setState(() {
@@ -341,11 +351,8 @@ class RefazynistState extends State<Refazynist> {
   /// Remove loader on the end on list when lazy load in progress
   Future<void> removeLoader () async {
     if (_loaderShowing) {
-      _animatedListKey.currentState!.removeItem(_items.length, (riContext, animation) {
-        return FadeTransition(
-          opacity: animation,
-          child: _getLoader(riContext, animation),
-        );
+      _animatedListKey.currentState!.removeItem(_items.length, (riContext, rAnimation) {
+        return widget.loaderBuilder(riContext, rAnimation);
       }, duration: widget.removeDuration);
 
       await Future.delayed(widget.removeDuration);
@@ -353,21 +360,6 @@ class RefazynistState extends State<Refazynist> {
       _loaderShowing = false;
     }
 
-  }
-
-  Widget _getLoader (BuildContext ibContext, Animation<double> ibAnimation) {
-    if (widget.loaderBuilder != null) {
-      return widget.loaderBuilder!(ibContext, ibAnimation);
-    }
-
-    return Center(
-      child: FadeTransition(
-        opacity: ibAnimation,
-        child: Padding(
-          padding: EdgeInsets.all(20),
-          child: CircularProgressIndicator(),
-        )),
-    );
   }
 
   bool _loaderShowing = false;
@@ -406,7 +398,7 @@ class RefazynistState extends State<Refazynist> {
         });
       }
 
-      return _getLoader(ibContext, ibAnimation);
+      return widget.loaderBuilder(ibContext, ibAnimation);
     }
 
     if (index < _items.length) {
@@ -446,7 +438,7 @@ class RefazynistState extends State<Refazynist> {
     if (_items.length > 0) {
       _frontWidget = null;
     } else {
-      _frontWidget = widget.emptyBuilder!(context);
+      _frontWidget = widget.emptyBuilder(context);
     }
 
     setState(() {
@@ -480,4 +472,39 @@ class RefazynistState extends State<Refazynist> {
     }
 
   }
+}
+
+Widget refazynistDefaultErrorBuilder (BuildContext bContext) {
+  return Stack(
+    children: <Widget>[
+      ListView(),
+      Center(
+        child: Wrap(
+          children: [
+            Column(
+              children: [
+                Icon(
+                  Icons.warning_amber_rounded,
+                  size: 60,
+                  color: Colors.black26,
+                ),
+                Text ('Empty'),
+              ],
+            )
+          ],
+        ),
+      ),
+    ],
+  );
+}
+
+Widget refazynistDefaultLoaderBuilder (BuildContext bContext, Animation<double> bAnimation) {
+  return Center(
+    child: FadeTransition(
+        opacity: bAnimation,
+        child: Padding(
+          padding: EdgeInsets.all(20),
+          child: CircularProgressIndicator(),
+        )),
+  );
 }

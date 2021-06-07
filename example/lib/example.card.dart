@@ -105,39 +105,7 @@ class _RefazynistDismissibleDemoState extends State<RefazynistDismissibleDemo> {
             return <dynamic>['Init item 1', 'Init item 2'];
           },
 
-          emptyBuilder: (ewContext) {
-            return Stack(
-              children: <Widget>[
-                ListView(),
-                Center(
-                  child: Wrap(
-                    children: [
-                      Column(
-                        children: [
-                          Icon(
-                            Icons.warning_amber_rounded,
-                            size: 60,
-                            color: Colors.black26,
-                          ),
-                          Text ('Empty'),
 
-                          Padding(padding: EdgeInsets.only(top: 20)),
-
-                          ElevatedButton(
-                            child: Text ('Create New'),
-
-                            onPressed: () {
-                              refazynistKey.currentState!.insertItem(0, 'Created item');
-                            },
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              ],
-            );
-          },
 
           //
           // Refazynist: It's for refresh
