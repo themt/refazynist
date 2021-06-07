@@ -212,6 +212,8 @@ class RefazynistState extends State<Refazynist> {
 
     if (!_play) return Future.value();
 
+    cursor = "";
+
     List<dynamic> refreshList = await widget.onRefresh();
 
     if (refreshList.length > 0) {
@@ -260,6 +262,8 @@ class RefazynistState extends State<Refazynist> {
   /// [sequentialRemove] used for remove process, true for ordered-time, false for same-time
   Future<void> clear ({bool sequentialRemove = false}) async {
     _clearRunning = true;
+
+    //cursor = "";
 
     removeLoader();
 
