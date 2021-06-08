@@ -1,24 +1,24 @@
 # Refazynist is a Refreshable, Lazy and Animated List
 
-It is exactly what you are looking for. Yes,/ an all in one Flutter list. 
+It is exactly what you are looking for. Yes, an all in one Flutter list. 
 
 ### Refreshable
 
 It can refresh... Data can came server or local system, or what you want... 
 
-<img src="http://themt.co/files/flutter-refazynist/refazynist-refreshable.gif"/>
+<img src="https://themt.co/files/flutter-refazynist/refazynist-refreshable.gif"/>
 
 ### Cacheable
 
 It can cache... Live status is saving to local system with Shared Preferences and continue from last point.
 
-<img src="http://themt.co/files/flutter-refazynist/refazynist-cachable.gif"/>
+<img src="https://themt.co/files/flutter-refazynist/refazynist-cachable.gif"/>
 
 ### Lazy Loading
 
 It can loading lazy... If you want lazy loading, you can server data or whatever
 
-| <img src="http://themt.co/files/flutter-refazynist/refazynist-lazy.gif"/> | <img src="http://themt.co/files/flutter-refazynist/refazynist-lazy-2.gif"/> |
+| <img src="https://themt.co/files/flutter-refazynist/refazynist-lazy.gif"/> | <img src="https://themt.co/files/flutter-refazynist/refazynist-lazy-2.gif"/> |
 | :----------------------------------------------------------: | :----------------------------------------------------------: |
 
 
@@ -27,7 +27,7 @@ It can loading lazy... If you want lazy loading, you can server data or whatever
 
 It is powerful Flutter Animated List... It can add item. It can remove item. It can clear all items.
 
-| <img src="http://themt.co/files/flutter-refazynist/refazynist-list.gif"/> | <img src="http://themt.co/files/flutter-refazynist/refazynist-list-2.gif"/> |
+| <img src="https://themt.co/files/flutter-refazynist/refazynist-list.gif"/> | <img src="https://themt.co/files/flutter-refazynist/refazynist-list-2.gif"/> |
 | :----------------------------------------------------------: | :----------------------------------------------------------: |
 
 
@@ -36,7 +36,7 @@ It is powerful Flutter Animated List... It can add item. It can remove item. It 
 
 It can dismiss... Swipe to remove. It's simple.
 
-<img src="http://themt.co/files/flutter-refazynist/refazynist-dismissable.gif"/>
+<img src="https://themt.co/files/flutter-refazynist/refazynist-dismissable.gif"/>
 
 ## Usage
 
@@ -287,5 +287,4 @@ class _RefazynistDismissibleDemoState extends State<RefazynistDismissibleDemo> {
   }
 }
 ```
-
 
