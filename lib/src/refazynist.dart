@@ -117,6 +117,20 @@ class RefazynistState extends State<Refazynist> {
     });
   }
 
+  void editItem (int index, dynamic item) {
+    if (index >= 0 && index < _items.length) {
+      _items[index] = item;
+      _animatedListKey.currentState!.setState(() {
+
+      });
+      setState(() {
+
+      });
+    } else {
+      print ('refazynist | editItem | index not in range');
+    }
+  }
+
   /// Get length of list
   int length () {
     return _items.length;
