@@ -230,8 +230,9 @@ class RefazynistState extends State<Refazynist> {
 
     List<dynamic> refreshList = await widget.onRefresh();
 
+    await clear(sequentialRemove: widget.sequentialRemove);
+
     if (refreshList.length > 0) {
-      await clear(sequentialRemove: widget.sequentialRemove);
 
       _insertAllItem(_items.length, refreshList, sequentialInsert: widget.sequentialInsert, callType: RefazynistCallType.all);
 

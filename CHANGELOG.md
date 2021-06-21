@@ -1,3 +1,7 @@
+## [0.0.4]
+
+*  Same bug fixes
+
 ## [0.0.3]
 
 *  New addons
